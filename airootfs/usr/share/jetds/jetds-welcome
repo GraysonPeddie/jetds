@@ -1,0 +1,42 @@
+#!/bin/bash
+# /usr/local/bin/jetds-welcome
+
+# Get primary IP address
+IP=$(hostname -i | awk '{print $1}')
+
+# Check if dialog is available
+if command -v dialog &> /dev/null; then
+    dialog --title "jetDS Setup Complete" \
+           --ok-label "Advanced: Terminal (CLI)" \
+           --extra-button --extra-label "Reboot" \
+           --extra-button --extra-label "Power Off" \
+           --msgbox "jetDS is now ready!
+
+To configure your server, point your web browser to:
+https://${IP}:9090
+
+Or press Enter to open the terminal. This is for advanced users only." 15 75
+
+    case $? in
+        0)  # OK button
+            clear
+            echo "jetDS is ready: https://${IP}:9090"
+            ;;
+        3)  # Extra button (Reboot)
+            reboot
+            ;;
+        1|255)  # ESC
+            clear
+            echo "jetDS is ready: https://${IP}:9090"
+            ;;
+    esac
+else
+    # Fallback if dialog not available
+    clear
+    echo "jetDS is now ready!"
+    echo ""
+    echo "To configure your server, point your web browser to:"
+    echo "https://${IP}:9090"
+    echo ""
+    echo "Login with your system credentials."
+fi

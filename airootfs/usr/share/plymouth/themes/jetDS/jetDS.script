@@ -1,0 +1,35 @@
+// Original source: https://github.com/HerbFargus/plymouth-themes/blob/master/basic/basic.script
+// Modified and adapted by Grayson Peddie for jetDS!
+background_image = Image("background.png");
+
+screen_ratio = Window.GetHeight() / Window.GetWidth();
+background_image_ratio = background_image.GetHeight() / background_image.GetWidth();
+
+if (screen_ratio > background_image_ratio)
+  {  # Screen ratio is taller than image ratio, we will match the screen height
+     scale_factor =  Window.GetHeight() / background_image.GetHeight();
+  }
+else
+  {  # Screen ratio is wider than image ratio, we will match the screen width
+     scale_factor =  Window.GetWidth() / background_image.GetWidth();
+  }
+
+scaled_background_image = background_image.Scale(background_image.GetWidth()  * scale_factor,
+                                         background_image.GetHeight() * scale_factor);
+background_sprite = Sprite(scaled_background_image); # Create the a sprite using the scaled image
+
+background_sprite.SetX(Window.GetWidth()  / 2 - scaled_background_image.GetWidth () / 2); # Place in the centre
+background_sprite.SetY(Window.GetHeight() / 2 - scaled_background_image.GetHeight() / 2);
+background_sprite.SetZ(-10000); # Place right at the back
+
+
+
+
+
+
+fun refresh_callback ()
+  {
+    # Currently we do nothing here
+  }
+  
+Plymouth.SetRefreshFunction (refresh_callback);

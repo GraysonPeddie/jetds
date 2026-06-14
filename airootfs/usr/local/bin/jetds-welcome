@@ -1,0 +1,12 @@
+#!/bin/bash
+IP=$(hostname -i | awk '{print $1}')
+dialog --title "jetDS Setup Complete" --msgbox "jetDS is now ready.
+
+To configure your server, point your web browser to:
+https://(your-ip-address):9090
+
+In this case it's:
+https://${IP}:9090
+
+Login with your system credentials." 20 60
+clear

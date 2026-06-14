@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=jetDS
+Description=Custom jetDS boot theme with wallpaper
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/jetDS
+ScriptFile=/usr/share/plymouth/themes/jetDS/jetDS.script

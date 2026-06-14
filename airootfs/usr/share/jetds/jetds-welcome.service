@@ -1,0 +1,24 @@
+# /etc/systemd/system/jetds-welcome.service
+[Unit]
+Description=jetDS First Boot Welcome Message
+After=network-online.target cockpit.socket
+Wants=network-online.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/systemctl mask --runtime getty@tty1.service
+ExecStartPre=-/usr/bin/systemctl stop getty@tty1.service
+ExecStart=/usr/local/bin/jetds-welcome
+ExecStopPost=-/usr/bin/systemctl unmask --runtime getty@tty1.service
+ExecStopPost=-/usr/bin/systemctl start getty@tty1.service
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty1
+TTYReset=yes
+TTYVHangup=yes
+KillMode=process
+IgnoreSIGPIPE=no
+
+[Install]
+WantedBy=getty.target
