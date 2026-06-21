@@ -1,9 +1,6 @@
 #!/bin/bash
 # /usr/local/bin/jetds-welcome
 
-# Get primary IP address
-IP=$(hostname -i | awk '{print $1}')
-
 # Prevent Ctrl+C usage
 trap 'echo got SIGINT' INT
 
@@ -12,7 +9,7 @@ welcome() {
     if command -v dialog &> /dev/null; then
         choice=$(dialog --title "jetDS Is Now Ready!" --no-cancel \
                --menu "To configure your server, point your web browser to:
-https://${IP}:9090
+https://(IP Address or Fully-Qualified Domain Name):9090
 
 Or press Enter to open the terminal. This is for advanced users only." 15 75 4 \
                "1" "Advanced: Terminal (CLI)" \
