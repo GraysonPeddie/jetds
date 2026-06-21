@@ -4,39 +4,116 @@
 # Get primary IP address
 IP=$(hostname -i | awk '{print $1}')
 
-# Check if dialog is available
-if command -v dialog &> /dev/null; then
-    dialog --title "jetDS Setup Complete" \
-           --ok-label "Advanced: Terminal (CLI)" \
-           --extra-button --extra-label "Reboot" \
-           --extra-button --extra-label "Power Off" \
-           --msgbox "jetDS is now ready!
+# Prevent Ctrl+C usage
+trap 'echo got SIGINT' INT
 
-To configure your server, point your web browser to:
+welcome() {
+    # Check if dialog is available
+    if command -v dialog &> /dev/null; then
+        choice=$(dialog --title "jetDS Is Now Ready!" --no-cancel \
+               --menu "To configure your server, point your web browser to:
 https://${IP}:9090
 
-Or press Enter to open the terminal. This is for advanced users only." 15 75
+Or press Enter to open the terminal. This is for advanced users only." 15 75 4 \
+               "1" "Advanced: Terminal (CLI)" \
+               "2" "Network Configuration" \
+               "3" "System Management Utilities" \
+               "4" "Reboot" \
+               "5" "Power Off" 2>&1 >/dev/tty)
+    
+        case $choice in
+            1)  # Advanced: Terminal (CLI)
+                clear
+                toterminal
+                ;;
+            2)  # Network Configuration
+                nmtui
+                welcome
+                ;;
+            3)  # System Management Utilities
+                clear
+                sysmonutils
+                ;;
+            4)  # Reboot
+                clear
+                reboot
+                ;;
+            5)  # Power Off
+                clear
+                poweroff
+                ;;
+            *) # ESC pressed; stay in this dialog.
+                welcome
+                ;;
+        esac
+    else
+        # Fallback if dialog not available
+        clear
+        echo "jetDS is now ready!"
+        echo ""
+        echo "To configure your server, point your web browser to:"
+        echo "https://${IP}:9090"
+        echo ""
+        echo "Login with your system credentials."
+    fi
 
-    case $? in
-        0)  # OK button
+}
+
+sysmonutils() {
+    choice=$(dialog --title "System Management Utilities" --no-cancel \
+             --menu "While accessing any of the system management utilities, to return here, press the Q key." 15 75 4 \
+             "1" "Process Monitor" \
+             "2" "Network Monitor" \
+             "3" "Disk Monitor" \
+             "4" "Return to Main Menu" 2>&1 >/dev/tty)
+    
+    case $choice in
+        1)  # Process Monitor
             clear
-            echo "jetDS is ready: https://${IP}:9090"
+            htop
+            sysmonutils
             ;;
-        3)  # Extra button (Reboot)
-            reboot
-            ;;
-        1|255)  # ESC
+        2)  # Network Monitor
             clear
-            echo "jetDS is ready: https://${IP}:9090"
+            iftop
+            sysmonutils
+            ;;
+        3)  # Disk Monitor
+            clear
+            ncdu
+            sysmonutils
+            ;;
+        4)  # Return to main menu
+            welcome
+            ;;
+        *) # ESC pressed; stay in this dialog.
+            welcome
             ;;
     esac
-else
-    # Fallback if dialog not available
-    clear
-    echo "jetDS is now ready!"
-    echo ""
-    echo "To configure your server, point your web browser to:"
-    echo "https://${IP}:9090"
-    echo ""
-    echo "Login with your system credentials."
-fi
+}
+
+toterminal() {
+    dialog --title "Terminal Access: Caution" \
+           --ok-label "I Understand, Open Terminal" \
+           --cancel-label "Go Back" \
+           --yesno "The terminal is powerful but unforgiving. A single wrong command can damage your system.
+
+jetDS provides visual tools so you don't need the command line for most tasks.
+
+Only continue if you know what you're doing." 12 60
+
+    case $? in
+        0)  # OK
+            clear
+            echo "jetDS is ready: https://${IP}:9090"
+            ;;
+        1|255)  # Cancel or ESC
+            # Return to main welcome dialog
+            welcome
+            ;;
+    esac
+}
+
+welcome
+
+trap INT
