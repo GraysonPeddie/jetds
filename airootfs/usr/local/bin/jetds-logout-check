@@ -1,0 +1,27 @@
+#!/bin/bash
+# jetds-logout-check - Trigger welcome screen on console logout
+
+# PAM sets PAM_TTY with the terminal device
+TTY="${PAM_TTY:-$TTY}"
+
+# Check if this is a console TTY
+case "$TTY" in
+    /dev/tty[1-6]|/dev/tty[1-9]|/dev/tty[1-9][0-9])
+        # Don't run for SSH or PTS
+        case "$TTY" in
+            /dev/pts/*)
+                exit 0
+                ;;
+        esac
+
+        # This is a real console - trigger welcome screen
+        if [ -x /usr/local/bin/jetds-welcome ]; then
+            /usr/local/bin/jetds-welcome &
+        fi
+        ;;
+    *)
+        # Not a console
+       ;;
+esac
+
+exit 0
