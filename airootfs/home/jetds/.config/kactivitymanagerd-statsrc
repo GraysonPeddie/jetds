@@ -1,5 +1,5 @@
 [Favorites-org.kde.plasma.kickoff.favorites.instance-3-325a2a3d-7add-4092-ac26-489c55291c45]
-ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop
+ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop,applications:code-oss.desktop,applications:org.kde.partitionmanager.desktop
 
 [Favorites-org.kde.plasma.kickoff.favorites.instance-3-global]
-ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop
+ordering=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop,applications:code-oss.desktop,applications:org.kde.partitionmanager.desktop

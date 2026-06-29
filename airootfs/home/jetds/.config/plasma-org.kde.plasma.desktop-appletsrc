@@ -63,7 +63,7 @@ immutability=1
 plugin=org.kde.plasma.icontasks
 
 [Containments][2][Applets][5][Configuration][General]
-launchers=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop
+launchers=applications:systemsettings.desktop,applications:org.kde.dolphin.desktop,applications:org.kde.falkon.desktop,applications:nm-connection-editor.desktop,applications:org.kde.partitionmanager.desktop
 
 [Containments][2][Applets][6]
 immutability=1
@@ -125,4 +125,4 @@ AppletOrder=3;4;5;6;7;14;15
 
 [ScreenMapping]
 itemsOnDisabledScreens=
-screenMapping=desktop:/calamares.desktop,0,325a2a3d-7add-4092-ac26-489c55291c45,desktop:/nm-connection-editor.desktop,0,325a2a3d-7add-4092-ac26-489c55291c45
+screenMapping=desktop:/calamares.desktop,0,325a2a3d-7add-4092-ac26-489c55291c45,desktop:/nm-connection-editor.desktop,0,325a2a3d-7add-4092-ac26-489c55291c45,desktop:/org.kde.partitionmanager.desktop,0,325a2a3d-7add-4092-ac26-489c55291c45
